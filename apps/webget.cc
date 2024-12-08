@@ -11,22 +11,22 @@ void get_URL( const string& host, const string& path )
 {
   // cerr << "Function called: get_URL(" << host << ", " << path << ")\n";
   TCPSocket tcpsock {};
-  tcpsock.connect(Address(host, "http"));
+  tcpsock.connect( Address( host, "http" ) );
 
   // 发送 HTTP GET 请求
   string request = "GET " + path + " HTTP/1.1\r\nHost: " + host + "\r\nConnection: close\r\n\r\n";
-  tcpsock.write(request);
+  tcpsock.write( request );
 
   // 关闭写入方向
-  tcpsock.shutdown(SHUT_WR);
+  tcpsock.shutdown( SHUT_WR );
 
-  // 读取数据  
-  while( not tcpsock.eof()) {
+  // 读取数据
+  while ( not tcpsock.eof() ) {
     string buffer;
-    tcpsock.read(buffer);
+    tcpsock.read( buffer );
     cout << buffer;
   }
-  
+
   // 关闭套接字
   tcpsock.close();
 }
