@@ -2,64 +2,78 @@
 
 using namespace std;
 
-ByteStream::ByteStream( uint64_t capacity ) : capacity_( capacity ) {}
+ByteStream::ByteStream( uint64_t capacity ) : capacity_(capacity) {}
 
 bool Writer::is_closed() const
 {
-  // Your code here.
-  return {};
+  return write_end_;
 }
 
 void Writer::push( string data )
 {
-  // Your code here.
-  (void)data;
+  uint64_t length = data.length();
+
+  if(length > available_capacity()) length = available_capacity();
+
+  len_cumulative_bytes_pushed += length;
+
+  buffer_.emplace_back(move(data));
   return;
 }
 
 void Writer::close()
 {
-  // Your code here.
+  write_end_ = true;
 }
 
 uint64_t Writer::available_capacity() const
 {
-  // Your code here.
-  return {};
+  return capacity_ - (len_cumulative_bytes_pushed - len_cumulative_bytes_popped);
 }
 
 uint64_t Writer::bytes_pushed() const
 {
-  // Your code here.
-  return {};
+  return len_cumulative_bytes_pushed;
 }
 
 bool Reader::is_finished() const
 {
-  // Your code here.
-  return {};
+  return write_end_ && buffer_.size() == 0;
 }
 
 uint64_t Reader::bytes_popped() const
 {
-  // Your code here.
-  return {};
+  return len_cumulative_bytes_popped;
 }
 
 string_view Reader::peek() const
 {
-  // Your code here.
-  return {};
+  if(buffer_.empty()) {
+    return string_view {};
+  }
+  string temp = buffer_.front().substr(removed_prefix_);;
+  return string_view(temp);
 }
 
 void Reader::pop( uint64_t len )
 {
-  // Your code here.
-  (void)len;
+  // if(len > buffer_.size()) len = buffer_.size();
+
+  len_cumulative_bytes_popped += len;
+  while( len != 0U ){
+    const uint64_t& size = buffer_.front().size() - removed_prefix_;
+    if( len < size ) {
+      removed_prefix_ += len;
+      break;
+    }
+    buffer_.pop_front();
+    removed_prefix_ = 0;
+    len -= size;
+    // buffer_.pop_front();
+  }
 }
 
 uint64_t Reader::bytes_buffered() const
 {
-  // Your code here.
-  return {};
+  return len_cumulative_bytes_pushed - len_cumulative_bytes_popped;
 }
