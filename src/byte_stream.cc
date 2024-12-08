@@ -57,9 +57,8 @@ string_view Reader::peek() const
 
 void Reader::pop( uint64_t len )
 {
-  // if(len > buffer_.size()) len = buffer_.size();
-
   len_cumulative_bytes_popped += len;
+  
   while( len != 0U ){
     const uint64_t& size = buffer_.front().size() - removed_prefix_;
     if( len < size ) {
@@ -69,7 +68,6 @@ void Reader::pop( uint64_t len )
     buffer_.pop_front();
     removed_prefix_ = 0;
     len -= size;
-    // buffer_.pop_front();
   }
 }
 

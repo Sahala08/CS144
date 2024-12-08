@@ -15,12 +15,7 @@ void get_URL( const string& host, const string& path )
 
   // 发送 HTTP GET 请求
   string request = "GET " + path + " HTTP/1.1\r\nHost: " + host + "\r\nConnection: close\r\n\r\n";
-  // cerr << request << endl;
   tcpsock.write(request);
-
-  // tcpsock.write( string_view( "GET " + path + " HTTP/1.1\r\n" ) );
-  // tcpsock.write( string_view( "Host: " + host + "\r\n" ) );
-  // tcpsock.write( string_view( "Connection: close\r\n\r\n" ) );
 
   // 关闭写入方向
   tcpsock.shutdown(SHUT_WR);
@@ -31,7 +26,6 @@ void get_URL( const string& host, const string& path )
     tcpsock.read(buffer);
     cout << buffer;
   }
-  // cerr << endl;
   
   // 关闭套接字
   tcpsock.close();
