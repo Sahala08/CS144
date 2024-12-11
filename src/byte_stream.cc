@@ -11,12 +11,14 @@ bool Writer::is_closed() const
 
 void Writer::push( string data )
 {
-  uint64_t length = data.length();
+  if ( Writer::is_closed() or Writer::available_capacity() == 0 or data.empty() ) {
+    return;
+  }
 
-  if ( length > available_capacity() )
-    length = available_capacity();
-
-  len_cumulative_bytes_pushed += length;
+  if ( data.size() > Writer::available_capacity() ) {
+    data.resize(Writer::available_capacity());
+  }
+  len_cumulative_bytes_pushed += data.size();
 
   buffer_.emplace_back( move( data ) );
   return;
@@ -39,7 +41,7 @@ uint64_t Writer::bytes_pushed() const
 
 bool Reader::is_finished() const
 {
-  return write_end_ && buffer_.size() == 0;
+  return write_end_ and buffer_.size() == 0;
 }
 
 uint64_t Reader::bytes_popped() const
