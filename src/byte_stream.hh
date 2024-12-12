@@ -24,15 +24,14 @@ public:
 
 protected:
   // Please add any additional state to the ByteStream here, and not to the Writer and Reader interfaces.
-  std::queue<std::string> stream_ {};
+  std::queue<std::string> buffer_ {};
   uint64_t removed_prefix_ {};
 
   uint64_t capacity_;
-  uint64_t total_popped_ {};
-  uint64_t total_pushed_ {};
-  uint64_t total_buffered_ {};
+  uint64_t len_cumulative_bytes_popped_ {};
+  uint64_t len_cumulative_bytes_pushed_ {};
 
-  bool closed_ {};
+  bool write_end_ {};
   bool error_ {};
 };
 
