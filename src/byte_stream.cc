@@ -18,7 +18,7 @@ void Writer::push( string data )
   }
 
   if ( data.size() > Writer::available_capacity() ) {
-    data.resize(Writer::available_capacity());
+    data.resize( Writer::available_capacity() );
   }
   len_cumulative_bytes_pushed_ += data.size();
 
@@ -33,7 +33,7 @@ void Writer::close()
 
 uint64_t Writer::available_capacity() const
 {
-  return capacity_ - (len_cumulative_bytes_pushed_ - len_cumulative_bytes_popped_);
+  return capacity_ - ( len_cumulative_bytes_pushed_ - len_cumulative_bytes_popped_ );
 }
 
 uint64_t Writer::bytes_pushed() const

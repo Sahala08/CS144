@@ -1,11 +1,10 @@
 #pragma once
 
 #include "byte_stream.hh"
-
-#include <cstdint>
 #include <map>
 #include <optional>
 
+// 配置一个TCP接收器
 class Reassembler
 {
 public:
@@ -47,10 +46,10 @@ public:
 private:
   ByteStream output_; // the Reassembler writes to this ByteStream
 
-  std::map<uint64_t, std::string> buf_ {};
-  uint64_t total_pending_ {};
-
+  uint64_t len_bytes_pending_ {};
+  std::map<uint64_t, std::string> reassem_ {};
   std::optional<uint64_t> end_index_ {};
 
-  auto split( uint64_t pos ) noexcept;
+  std::map<uint64_t, std::string>::iterator split( uint64_t pos ) noexcept;
+  void try_close() noexcept;
 };
