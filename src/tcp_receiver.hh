@@ -3,6 +3,10 @@
 #include "reassembler.hh"
 #include "tcp_receiver_message.hh"
 #include "tcp_sender_message.hh"
+#include "wrapping_integers.hh"
+
+#include "iostream"
+#include <optional>
 
 class TCPReceiver
 {
@@ -27,4 +31,5 @@ public:
 
 private:
   Reassembler reassembler_;
+  std::optional<Wrap32> zero_point_ {};
 };

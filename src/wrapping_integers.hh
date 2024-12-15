@@ -1,5 +1,6 @@
 #pragma once
 
+#include <climits>
 #include <cstdint>
 
 /*
@@ -30,4 +31,7 @@ public:
 
 protected:
   uint32_t raw_value_ {};
+  static constexpr uint64_t MASK_LOW_32 { 0x0000'0000'FFFF'FFFF };
+  static constexpr uint64_t MASK_HIGH_32 { 0xFFFF'FFFF'0000'0000 };
+  static constexpr uint64_t INT32MAX_PLUS_ONE { 1UL << 32 };
 };

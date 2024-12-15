@@ -1,7 +1,7 @@
 #include "reassembler.hh"
 // #include <cstdlib>
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 
 using namespace std;
 
@@ -35,8 +35,8 @@ void Reassembler::try_close() noexcept
 void Reassembler::insert( uint64_t first_index, string data, bool is_last_substring )
 {
   // cout << "Function: {Reassembler::insert}" << endl;
-  // cout << "first_index: (" << first_index << "), "  << "data: (" << data << "), "  << "is_last_substring: (" << is_last_substring << ")" << endl;
-  // 空数据
+  // cout << "first_index: (" << first_index << "), "  << "data: (" << data << "), "  << "is_last_substring: (" <<
+  // is_last_substring << ")" << endl; 空数据
   if ( data.empty() ) {
     if ( not end_index_.has_value() and is_last_substring ) {
       end_index_.emplace( first_index );
