@@ -4,8 +4,8 @@ using namespace std;
 
 void TCPReceiver::receive( TCPSenderMessage message )
 {
-  cout << "message.SYN: " << message.SYN << ", message.payload: " << message.payload
-       << "message.FIN: " << message.FIN << "message.RST: " << message.RST << endl;
+  // cout << "message.SYN: " << message.SYN << ", message.payload: " << message.payload
+  //      << "message.FIN: " << message.FIN << "message.RST: " << message.RST << endl;
   if ( writer().has_error() ) {
     return;
   }
