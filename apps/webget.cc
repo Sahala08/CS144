@@ -1,4 +1,5 @@
 #include "socket.hh"
+#include "tcp_minnow_socket.hh"
 
 #include <cstdlib>
 #include <iostream>
@@ -16,10 +17,10 @@ void get_URL( const string& host, const string& path )
 
   // 发送 HTTP GET 请求
   string request = "GET " + path + " HTTP/1.1\r\nHost: " + host + "\r\nConnection: close\r\n\r\n";
-  tcpsock.write( request );
+  tcpsock.write( string_view { request });
 
   // 关闭写入方向
-  tcpsock.shutdown( SHUT_WR );
+  // tcpsock.shutdown( SHUT_WR );
 
   // 读取数据
   while ( not tcpsock.eof() ) {
