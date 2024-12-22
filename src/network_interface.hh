@@ -6,6 +6,9 @@
 #include "ethernet_frame.hh"
 #include "ipv4_datagram.hh"
 
+#include <vector>
+#include <string>
+
 // A "network interface" that connects IP (the internet layer, or network layer)
 // with Ethernet (the network access layer, or link layer).
 
@@ -81,4 +84,21 @@ private:
 
   // Datagrams that have been received
   std::queue<InternetDatagram> datagrams_received_ {};
+
+  EthernetFrame make_frame( const EthernetAddress& dst, const uint16_t type, std::vector<std::string> payload );
+  ARPMessage make_arp( const uint16_t opcode, const EthernetAddress target_ethernet_address, uint32_t target_ip_address );
+
+  static constexpr size_t ARP_RESPONSE_TTL_ms { 5'000 };
+  static constexpr size_t ARP_ENTRY_TTL_ms { 30'000 };
+
+  struct Timer {
+    size_t _ms {};
+    constexpr Timer& tick( const size_t ms_since_last_tick ) noexcept { return _ms += ms_since_last_tick, *this; }
+    [[nodiscard]] constexpr bool expired( const size_t& TTL_ms ) const noexcept { return _ms >= TTL_ms; }
+  };
+
+  using AddressNumeric = decltype( ip_address_.ipv4_numeric() );
+  std::unordered_map<AddressNumeric, std::vector<InternetDatagram>> dgrams_waiting_ {};
+  std::unordered_map<AddressNumeric, Timer> waiting_timer_ {};
+  std::unordered_map<AddressNumeric, std::pair<EthernetAddress, Timer>> ARP_cache_ {};
 };
