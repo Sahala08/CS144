@@ -5,8 +5,6 @@
 #include "network_interface.hh"
 #include "parser.hh"
 
-
-
 using namespace std;
 
 EthernetFrame NetworkInterface::make_frame( const EthernetAddress& dst,
@@ -17,7 +15,7 @@ EthernetFrame NetworkInterface::make_frame( const EthernetAddress& dst,
   frame.header.src = ethernet_address_;
   frame.header.dst = dst;
   frame.header.type = type;
-  frame.payload = std::move( payload );
+  frame.payload = move( payload );
   return frame;
 }
 
