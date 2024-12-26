@@ -3,7 +3,7 @@ Checkpoint 7 Writeup
 
 My name: [Sahal08]
 
-My SUNet ID: [00000]
+My SUNet ID: [000]
 
 I collaborated with: [list sunetids here]
 
